@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class main extends AppCompatActivity {
+public class home extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

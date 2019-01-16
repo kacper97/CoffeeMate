@@ -27,6 +27,7 @@
         android:layout_height="119dp"
         android:background="@color/colorFontOffWhite"
         android:drawableTop="@drawable/add_72"
+        android:onClick="add"
         android:text="@string/addACoffeeLbl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

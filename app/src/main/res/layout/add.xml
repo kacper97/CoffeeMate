@@ -141,6 +141,7 @@
         android:layout_height="84dp"
         android:background="@color/colorFontOffWhite"
         android:drawableTop="@drawable/blue_add_48"
+        android:onClick="addCoffee"
         android:text="@string/addCoffeeBtnLbl"
         app:layout_constraintBottom_toTopOf="@+id/addfooter"
         app:layout_constraintEnd_toEndOf="parent"

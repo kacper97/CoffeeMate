@@ -1,4 +1,4 @@
-package ie.cm;
+package ie.cm.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import ie.cm.R;
 
 public class Home extends AppCompatActivity {
 
@@ -54,5 +56,11 @@ public class Home extends AppCompatActivity {
     public void add(View v)
     {
         startActivity(new Intent(this,Add.class));
+    }
+
+
+    public void home(View v)
+    {
+        startActivity(new Intent(this,Base.class));
     }
 }

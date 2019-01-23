@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import ie.cm.R;
+import ie.cm.fragments.CoffeeFragment;
 import ie.cm.models.Coffee;
 
 public class Home extends Base {
@@ -40,27 +41,22 @@ public class Home extends Base {
                         }).show();
             }
         });
-        this.setupCoffees();
     }
 
     public void add(View v) {
-
         startActivity(new Intent(this, Add.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        coffeeFragment = CoffeeFragment.newInstance();
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container,coffeeFragment)
+                .commit();
         if(coffeeList.isEmpty())
             emptyList.setText(getString(R.string.emptyMessageLbl));
         else
             emptyList.setText("");
-    }
-
-    public void setupCoffees(){
-        coffeeList.add(new Coffee("Standard Black", "Some Shop",2.5,1.99,false));
-        coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
-        coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
     }
 }

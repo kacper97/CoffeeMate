@@ -28,12 +28,19 @@ public class CoffeeListAdapter extends ArrayAdapter<Coffee>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        return null;
+         CoffeeItem item = new CoffeeItem(context,parent,
+                 deleteListener, coffeeList.get(position));
+    return  item.view;
     }
 
     @Override
     public int getCount()
     {
-        return 0;
+        return coffeeList.size();
+    }
+
+    @Override
+    public Coffee getItem(int position) {
+        return coffeeList.get(position);
     }
 }

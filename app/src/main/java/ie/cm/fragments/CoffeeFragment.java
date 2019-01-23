@@ -35,7 +35,8 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        listAdapter = new CoffeeListAdapter(activity,this,Base.coffeeList);
+        setListAdapter(listAdapter);
     }
 
     @Override

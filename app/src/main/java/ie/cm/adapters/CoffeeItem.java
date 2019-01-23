@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import ie.cm.R;
 import ie.cm.models.Coffee;
 
@@ -30,6 +32,11 @@ public class CoffeeItem {
 
     private void updateControls(Coffee coffee) {
         ((TextView) view.findViewById(R.id.rowCoffeeName)).setText(coffee.coffeeName);
+        ((TextView) view.findViewById(R.id.rowCoffeeShop)).setText(coffee.shop);
+        ((TextView) view.findViewById(R.id.rowRating)).setText(coffee.rating + " *");
+        ((TextView) view.findViewById(R.id.rowPrice)).setText("€" +
+                new DecimalFormat("0.00").format(coffee.price));
+
 
         // Do the same for shop, rating, price & the favourite image here
         // and set the favourite on/off depending on the coffees favourite value

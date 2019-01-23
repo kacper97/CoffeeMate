@@ -6,15 +6,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
+import ie.cm.R;
 import ie.cm.activities.Base;
 import ie.cm.activities.Edit;
 import ie.cm.adapters.CoffeeListAdapter;
 import ie.cm.models.Coffee;
 
-public class CoffeeFragment  extends ListFragment implements View.OnClickListener
+public class CoffeeFragment  extends ListFragment implements View.OnClickListener, AbsListView.MultiChoiceModeListener
 {
     public Base activity;
     public static CoffeeListAdapter listAdapter;
@@ -58,6 +66,17 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
+
+        listView = v.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(this);
+
+        return v;
+    }
+
     public void onCoffeeDelete(final Coffee coffee)
     {
         String stringName = coffee.coffeeName;
@@ -96,5 +115,54 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         getActivity().startActivity(goEdit); // Launch the Intent
         goEdit.putExtras(activityInfo);
         getActivity().startActivity(goEdit);
+    }
+
+    @Override
+    public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
+
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        MenuInflater inflater = actionMode.getMenuInflater();
+        inflater.inflate(R.menu.delete_list_context,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        {
+            switch(menuItem.getItemId())
+            {
+                case R.id.menu_item_delete_coffee:
+                    deleteCoffees(actionMode);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+
+    private void deleteCoffees(ActionMode actionMode) {
+        for (int i = listAdapter.getCount() - 1; i >= 0; i--)
+        {
+            if (listView.isItemChecked(i))
+            {
+                Base.coffeeList.remove(listAdapter.getItem(i));
+            }
+        }
+        actionMode.finish();
+        listAdapter.notifyDataSetChanged();
+    }
+    
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+
     }
 }

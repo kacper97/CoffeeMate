@@ -1,10 +1,12 @@
 package ie.cm.activities;
 
 import ie.cm.R;
+import ie.cm.fragments.CoffeeFragment;
 import ie.cm.models.Coffee;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 
 public class Base extends AppCompatActivity {
     public static ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
+    public Bundle activityInfo; // Used for persistence (of sorts)
+    public CoffeeFragment coffeeFragment; // How we'll 'share' our List of Coffees between Activities
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

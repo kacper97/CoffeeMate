@@ -1,9 +1,10 @@
 package ie.cm.models;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Coffee implements Serializable {
-    public int coffeeId;
+    public String coffeeId;
     public String coffeeName;
     public String shop;
     public double rating;
@@ -15,6 +16,7 @@ public class Coffee implements Serializable {
 
     public Coffee(String name, String shop, double rating, double price, boolean fav)
     {
+        this.coffeeId = UUID.randomUUID().toString();
         this.coffeeName = name;
         this.shop = shop;
         this.rating = rating;
@@ -24,7 +26,7 @@ public class Coffee implements Serializable {
 
     @Override
     public String toString() {
-        return coffeeName + ", " + shop + ", " + rating
+        return coffeeId + " " +coffeeName + ", " + shop + ", " + rating
                 + ", " + price + ", fav =" + favourite;
     }
 }

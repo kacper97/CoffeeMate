@@ -17,8 +17,6 @@ import ie.cm.models.Coffee;
 public class Home extends Base {
 
     TextView emptyList;
-    ListView coffeeListView;
-    ArrayAdapter<Coffee> coffeeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +26,6 @@ public class Home extends Base {
         setSupportActionBar(toolbar);
 
         emptyList = findViewById(R.id.emptyList);
-        coffeeListView = findViewById(R.id.recentlyAddedList);
-        coffeeListView.setEmptyView(emptyList);
-        coffeeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,coffeeList);
-        coffeeListView.setAdapter(coffeeAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,18 +40,27 @@ public class Home extends Base {
                         }).show();
             }
         });
+        this.setupCoffees();
     }
 
     public void add(View v) {
+
         startActivity(new Intent(this, Add.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v("coffeemate","Home : " + coffeeList);
 
-        if(!coffeeList.isEmpty())
-            coffeeAdapter.notifyDataSetChanged();
+        if(coffeeList.isEmpty())
+            emptyList.setText(getString(R.string.emptyMessageLbl));
+        else
+            emptyList.setText("");
+    }
+
+    public void setupCoffees(){
+        coffeeList.add(new Coffee("Standard Black", "Some Shop",2.5,1.99,false));
+        coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
+        coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
     }
 }

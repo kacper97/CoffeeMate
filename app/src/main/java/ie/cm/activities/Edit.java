@@ -3,10 +3,12 @@ package ie.cm.activities;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ie.cm.R;
@@ -23,6 +25,35 @@ public class Edit extends Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit);
         context = this;
+        activityInfo = getIntent().getExtras();
+        aCoffee = getCoffeeObject(activityInfo.getString("coffeeId"));
+
+        Log.v("coffeemate", "EDIT : " + aCoffee);
+
+        ((TextView)findViewById(R.id.editTitleTV)).setText(aCoffee.coffeeName);
+
+        ((EditText)findViewById(R.id.editNameET)).setText(aCoffee.coffeeName);
+        ((TextView)findViewById(R.id.editShopET)).setText(aCoffee.shop);
+        ((EditText)findViewById(R.id.editPriceET)).setText(""+aCoffee.price);
+        ((RatingBar) findViewById(R.id.editRatingBar)).setRating((float)aCoffee.rating);
+
+        editFavourite = findViewById(R.id.editFavourite);
+        if (aCoffee.favourite == true) {
+        editFavourite.setImageResource(R.drawable.blue_favourites_72);
+        isFavourite = true;
+    } else {
+        editFavourite.setImageResource(R.drawable.favourites_72);
+        isFavourite = false;
+    }
+}
+
+    private Coffee getCoffeeObject(String id) {
+
+        for (Coffee c : coffeeList)
+            if (c.coffeeId.equalsIgnoreCase(id))
+                return c;
+
+        return null;
     }
 
     public void saveCoffee(View v) {
@@ -49,5 +80,22 @@ public class Edit extends Base {
 
         } else
             Toast.makeText(this, "You must Enter Something for Name and Shop",Toast.LENGTH_SHORT).show();
+    }
+
+    public void toggle (View view) {
+        // Bind to the editFavourite imageview and toggle its image
+        // depending on whether it's a 'favourite' coffee or not
+
+        if (isFavourite) {
+            aCoffee.favourite = false;
+            Toast.makeText(this,"Removed From Favourites",Toast.LENGTH_SHORT).show();
+            isFavourite = false;
+            editFavourite.setImageResource(R.drawable.favourites_72);
+        } else {
+            aCoffee.favourite = true;
+            Toast.makeText(this,"Added to Favourites !!",Toast.LENGTH_SHORT).show();
+            isFavourite = true;
+            editFavourite.setImageResource(R.drawable.blue_favourites_72);
+        }
     }
 }

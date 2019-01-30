@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,11 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import ie.cm.R;
 import ie.cm.activities.Base;
 import ie.cm.activities.Edit;
+import ie.cm.activities.Favourites;
+import ie.cm.adapters.CoffeeFilter;
 import ie.cm.adapters.CoffeeListAdapter;
 import ie.cm.models.Coffee;
 
@@ -28,6 +38,7 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     public Base activity;
     public static CoffeeListAdapter listAdapter;
     public ListView listView;
+    public CoffeeFilter coffeeFilter;
 
     public CoffeeFragment() {
         // Required empty public constructor
@@ -61,8 +72,17 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        listAdapter = new CoffeeListAdapter(activity, this, Base.coffeeList);
+        listAdapter = new CoffeeListAdapter(activity, this, activity.app.coffeeList);
+        coffeeFilter = new CoffeeFilter(activity.app.coffeeList,"all",listAdapter);
+
+        if (getActivity() instanceof Favourites) {
+            coffeeFilter.setFilter("favourites"); // Set the filter text field from 'all' to 'favourites'
+            coffeeFilter.filter(null); // Filter the data, but don't use any prefix
+            listAdapter.notifyDataSetChanged(); // Update the adapter
+        }
         setListAdapter (listAdapter);
+        setRandomCoffee();
+        checkEmptyList();
     }
 
     @Override
@@ -102,9 +122,11 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         {
             public void onClick(DialogInterface dialog, int id)
             {
-                Base.coffeeList.remove(coffee); // remove from our list
+                activity.app.coffeeList.remove(coffee); // remove from our list
                 listAdapter.coffeeList.remove(coffee); // update adapters data
+                setRandomCoffee();
                 listAdapter.notifyDataSetChanged(); // refresh adapter
+                checkEmptyList();
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener()
         {
@@ -144,19 +166,59 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         }
     }
 
-    private void deleteCoffees(ActionMode actionMode)
+    public void deleteCoffees(ActionMode actionMode)
     {
-        for (int i = listAdapter.getCount() - 1; i >= 0; i--)
+        for (int i = listAdapter.getCount() -1 ; i >= 0; i--)
         {
             if (listView.isItemChecked(i))
             {
-                Base.coffeeList.remove(listAdapter.getItem(i));
+                activity.app.coffeeList.remove(listAdapter.getItem(i));
+                if (activity instanceof Favourites)
+                    listAdapter.coffeeList.remove(listAdapter.getItem(i));
             }
         }
+        setRandomCoffee();
+        listAdapter.notifyDataSetChanged(); // refresh adapter
+        checkEmptyList();
+
         actionMode.finish();
-        listAdapter.notifyDataSetChanged();
     }
 
+    public void setRandomCoffee() {
+
+        ArrayList<Coffee> coffeeList = new ArrayList<>();
+
+        for(Coffee c : activity.app.coffeeList)
+            if (c.favourite)
+                coffeeList.add(c);
+
+        if (activity instanceof Favourites)
+            if( !coffeeList.isEmpty()) {
+                Coffee randomCoffee = coffeeList.get(new Random()
+                        .nextInt(coffeeList.size()));
+
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeeName)).setText(randomCoffee.coffeeName);
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeeShop)).setText(randomCoffee.shop);
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeePrice)).setText("€ " + randomCoffee.price);
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeeRating)).setText(randomCoffee.rating + " *");
+            }
+            else {
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeeName)).setText("N/A");
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeeShop)).setText("N/A");
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeePrice)).setText("N/A");
+                ((TextView) getActivity().findViewById(R.id.favouriteCoffeeRating)).setText("N/A");
+            }
+    }
+
+    public void checkEmptyList()
+    {
+        TextView recentList = getActivity().findViewById(R.id.emptyList);
+
+        if(activity.app.coffeeList.isEmpty())
+            recentList.setText(getString(R.string.emptyMessageLbl));
+        else
+            recentList.setText("");
+    }
     @Override
     public void onDestroyActionMode(ActionMode actionMode)
     {}

@@ -23,4 +23,7 @@
     <string name="informationLbl">Information</string>
     <string name="emptyMessageLbl">You have no Coffee\'s added, go have a coffee!</string>
     <string name="deleteCoffeesLbl">Delete Coffees</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

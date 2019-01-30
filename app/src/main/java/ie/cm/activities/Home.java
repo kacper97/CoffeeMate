@@ -41,6 +41,7 @@ public class Home extends Base {
                         }).show();
             }
         });
+        if(coffeeList.isEmpty()) setupCoffees();
     }
 
     public void add(View v) {
@@ -50,13 +51,24 @@ public class Home extends Base {
     @Override
     protected void onResume() {
         super.onResume();
-        coffeeFragment = CoffeeFragment.newInstance();
-        getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container,coffeeFragment)
-                .commit();
+
         if(coffeeList.isEmpty())
             emptyList.setText(getString(R.string.emptyMessageLbl));
         else
             emptyList.setText("");
+
+        coffeeFragment = CoffeeFragment.newInstance(); //get a new Fragment instance
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, coffeeFragment)
+                .commit(); // add it to the current activity
+
     }
+
+    public void setupCoffees(){
+        coffeeList.add(new Coffee("Standard Black", "Some Shop",2.5,1.99,false));
+        coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
+        coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
+    }
+
 }
+

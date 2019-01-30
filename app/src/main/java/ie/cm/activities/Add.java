@@ -12,6 +12,7 @@ import ie.cm.R;
 import ie.cm.models.Coffee;
 
 public class Add extends Base {
+
     private String 		coffeeName, coffeeShop;
     private double 		coffeePrice, ratingValue;
     private EditText name, shop, price;
@@ -19,22 +20,23 @@ public class Add extends Base {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
 
         name = findViewById(R.id.addNameET);
         shop =  findViewById(R.id.addShopET);
-        price =  findViewById(R.id.addPriceET);
+        price =  findViewById(R.id.editPriceET);
         ratingBar =  findViewById(R.id.addRatingBar);
     }
 
-    public void addCoffee(View v){
+    public void addCoffee(View v) {
+
         coffeeName = name.getText().toString();
         coffeeShop = shop.getText().toString();
         try {
             coffeePrice = Double.parseDouble(price.getText().toString());
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             coffeePrice = 0.0;
         }
         ratingValue = ratingBar.getRating();

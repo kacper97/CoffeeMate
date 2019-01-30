@@ -22,7 +22,8 @@ import ie.cm.activities.Edit;
 import ie.cm.adapters.CoffeeListAdapter;
 import ie.cm.models.Coffee;
 
-public class CoffeeFragment  extends ListFragment implements View.OnClickListener, AbsListView.MultiChoiceModeListener
+public class CoffeeFragment  extends ListFragment implements View.OnClickListener,
+        AbsListView.MultiChoiceModeListener
 {
     public Base activity;
     public static CoffeeListAdapter listAdapter;
@@ -30,6 +31,18 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
 
     public CoffeeFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        Bundle activityInfo = new Bundle(); // Creates a new Bundle object
+        activityInfo.putString("coffeeId", (String) v.getTag());
+        Intent goEdit = new Intent(getActivity(), Edit.class); // Creates a new Intent
+        /* Add the bundle to the intent here */
+        goEdit.putExtras(activityInfo);
+        getActivity().startActivity(goEdit); // Launch the Intent
     }
 
     public static CoffeeFragment newInstance() {
@@ -48,22 +61,8 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        listAdapter = new CoffeeListAdapter(activity,this,Base.coffeeList);
-        setListAdapter(listAdapter);
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    public void onClick(View view){
-        if(view.getTag()instanceof Coffee)
-        {
-            onCoffeeDelete((Coffee) view.getTag());
-        }
+        listAdapter = new CoffeeListAdapter(activity, this, Base.coffeeList);
+        setListAdapter (listAdapter);
     }
 
     @Override
@@ -75,6 +74,21 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         listView.setMultiChoiceModeListener(this);
 
         return v;
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        if (view.getTag() instanceof Coffee)
+        {
+            onCoffeeDelete ((Coffee) view.getTag());
+        }
     }
 
     public void onCoffeeDelete(final Coffee coffee)
@@ -103,29 +117,12 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         alert.show();
     }
 
+    /* ************ MultiChoiceModeListener methods (begin) *********** */
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        Bundle activityInfo = new Bundle(); // Creates a new Bundle object
-        activityInfo.putString("coffeeId", (String) v.getTag());
-
-        Intent goEdit = new Intent(getActivity(), Edit.class); // Creates a new Intent
-        /* Add the bundle to the intent here */
-        getActivity().startActivity(goEdit); // Launch the Intent
-        goEdit.putExtras(activityInfo);
-        getActivity().startActivity(goEdit);
-    }
-
-    @Override
-    public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
-
-    }
-
-    @Override
-    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu)
+    {
         MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.delete_list_context,menu);
+        inflater.inflate(R.menu.delete_list_context, menu);
         return true;
     }
 
@@ -135,20 +132,20 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     }
 
     @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem)
+    {
+        switch (menuItem.getItemId())
         {
-            switch(menuItem.getItemId())
-            {
-                case R.id.menu_item_delete_coffee:
-                    deleteCoffees(actionMode);
-                    return true;
-                default:
-                    return false;
-            }
+            case R.id.menu_item_delete_coffee:
+                deleteCoffees(actionMode);
+                return true;
+            default:
+                return false;
         }
     }
 
-    private void deleteCoffees(ActionMode actionMode) {
+    private void deleteCoffees(ActionMode actionMode)
+    {
         for (int i = listAdapter.getCount() - 1; i >= 0; i--)
         {
             if (listView.isItemChecked(i))
@@ -159,10 +156,13 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         actionMode.finish();
         listAdapter.notifyDataSetChanged();
     }
-    
 
     @Override
-    public void onDestroyActionMode(ActionMode actionMode) {
+    public void onDestroyActionMode(ActionMode actionMode)
+    {}
 
-    }
+    @Override
+    public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked)
+    {}
+    /* ************ MultiChoiceModeListener methods (end) *********** */
 }

@@ -32,10 +32,19 @@ public class CoffeeItem {
 
     private void updateControls(Coffee coffee) {
         ((TextView) view.findViewById(R.id.rowCoffeeName)).setText(coffee.coffeeName);
+
         ((TextView) view.findViewById(R.id.rowCoffeeShop)).setText(coffee.shop);
         ((TextView) view.findViewById(R.id.rowRating)).setText(coffee.rating + " *");
         ((TextView) view.findViewById(R.id.rowPrice)).setText("€" +
                 new DecimalFormat("0.00").format(coffee.price));
-        }
 
+        ImageView imgIcon = view.findViewById(R.id.rowFavouriteImg);
+
+        if (coffee.favourite == true)
+            imgIcon.setImageResource(R.drawable.favourites_72_on);
+        else
+            imgIcon.setImageResource(R.drawable.favourites_72);
+
+
+    }
 }

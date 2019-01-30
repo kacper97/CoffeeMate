@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/editBarTV"
-        android:layout_width="384dp"
+        android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginTop="104dp"
         android:background="@color/colorPrimary"
@@ -132,7 +132,7 @@
         android:ems="10"
         android:hint="Shop"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/addPriceET"
+        app:layout_constraintBottom_toTopOf="@+id/editPriceET"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toEndOf="@+id/editShopTV"
@@ -148,7 +148,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editfooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPriceET"
+        app:layout_constraintTop_toBottomOf="@+id/editPriceET"
         app:layout_constraintVertical_bias="0.116" />
 
     <Button
@@ -169,15 +169,15 @@
 
     <TextView
         android:id="@+id/editTitleTV"
-        android:layout_width="199dp"
-        android:layout_height="45dp"
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:text="Title"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -194,5 +194,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/favourites_72" />
-
 </android.support.constraint.ConstraintLayout>

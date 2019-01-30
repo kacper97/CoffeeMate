@@ -4,10 +4,10 @@ import ie.cm.R;
 import ie.cm.fragments.CoffeeFragment;
 import ie.cm.models.Coffee;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 public class Base extends AppCompatActivity {
+
     public static ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
     public Bundle activityInfo; // Used for persistence (of sorts)
     public CoffeeFragment coffeeFragment; // How we'll 'share' our List of Coffees between Activities
@@ -29,8 +30,7 @@ public class Base extends AppCompatActivity {
         startActivity(new Intent(this, Home.class));
     }
 
-    public void menuInfo(MenuItem m)
-    {
+    public void menuInfo(MenuItem m) {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.appAbout))
                 .setMessage(getString(R.string.appDesc)
@@ -39,14 +39,13 @@ public class Base extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // we could put some code here too
+                       // we could put some code here too
                     }
                 })
                 .show();
     }
 
-    public void menuHelp(MenuItem m)
-    {
+    public void menuHelp(MenuItem m) {
         startActivity(new Intent(this, Help.class));
     }
 }

@@ -70,5 +70,15 @@ public class Home extends Base {
         coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
     }
 
+
+    public void search(View v) {
+        startActivity(new Intent(this, Search.class));
+    }
+
+    public void favourites(View v) {
+        startActivity(new Intent(this, Favourites.class));
+    }
+
+
 }
 

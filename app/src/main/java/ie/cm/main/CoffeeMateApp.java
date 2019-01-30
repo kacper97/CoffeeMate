@@ -9,7 +9,6 @@ import android.util.Log;
 public class CoffeeMateApp extends Application
 {
     public List <Coffee>  coffeeList = new ArrayList<Coffee>();
-
     @Override
     public void onCreate()
     {

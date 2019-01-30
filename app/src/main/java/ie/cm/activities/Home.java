@@ -25,9 +25,6 @@ public class Home extends Base {
         setContentView(R.layout.home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        emptyList = findViewById(R.id.emptyList);
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +38,7 @@ public class Home extends Base {
                         }).show();
             }
         });
-        if(coffeeList.isEmpty()) setupCoffees();
+        if(app.coffeeList.isEmpty()) setupCoffees();
     }
 
     public void add(View v) {
@@ -52,7 +49,7 @@ public class Home extends Base {
     protected void onResume() {
         super.onResume();
 
-        if(coffeeList.isEmpty())
+        if(app.coffeeList.isEmpty())
             emptyList.setText(getString(R.string.emptyMessageLbl));
         else
             emptyList.setText("");
@@ -65,9 +62,9 @@ public class Home extends Base {
     }
 
     public void setupCoffees(){
-        coffeeList.add(new Coffee("Standard Black", "Some Shop",2.5,1.99,false));
-        coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
-        coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
+        app.coffeeList.add(new Coffee("Standard Black", "Some Shop",2.5,1.99,false));
+        app.coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
+        app.coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
     }
 
 

@@ -50,7 +50,7 @@ public class Edit extends Base {
 
     private Coffee getCoffeeObject(String id) {
 
-        for (Coffee c : coffeeList)
+        for (Coffee c : app.coffeeList)
             if (c.coffeeId.equalsIgnoreCase(id))
                 return c;
 

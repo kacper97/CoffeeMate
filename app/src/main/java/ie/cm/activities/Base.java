@@ -17,7 +17,7 @@ import android.view.MenuItem;
 public class Base extends Activity {
     public  CoffeeMateApp app;
     protected Bundle activityInfo;
-    public Fragment coffeeFragment;
+    public CoffeeFragment coffeeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

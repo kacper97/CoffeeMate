@@ -17,14 +17,13 @@ import ie.cm.models.Coffee;
 
 public class Home extends Base {
 
-    TextView emptyList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,20 +44,21 @@ public class Home extends Base {
         startActivity(new Intent(this, Add.class));
     }
 
+    public void search(View v) {
+        startActivity(new Intent(this, Search.class));
+    }
+
+    public void favourites(View v) { startActivity(new Intent(this, Favourites.class));
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        if(app.coffeeList.isEmpty())
-            emptyList.setText(getString(R.string.emptyMessageLbl));
-        else
-            emptyList.setText("");
 
         coffeeFragment = CoffeeFragment.newInstance(); //get a new Fragment instance
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, coffeeFragment)
                 .commit(); // add it to the current activity
-
     }
 
     public void setupCoffees(){
@@ -66,16 +66,5 @@ public class Home extends Base {
         app.coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
         app.coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
     }
-
-
-    public void search(View v) {
-        startActivity(new Intent(this, Search.class));
-    }
-
-    public void favourites(View v) {
-        startActivity(new Intent(this, Favourites.class));
-    }
-
-
 }
 

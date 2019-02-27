@@ -2,6 +2,7 @@ package ie.cm.activities;
 import android.os.Bundle;
 import ie.cm.R;
 import ie.cm.fragments.CoffeeFragment;
+import ie.cm.fragments.SearchFragment;
 
 public class Search extends Base {
 
@@ -14,7 +15,7 @@ public class Search extends Base {
     @Override
     protected void onResume() {
         super.onResume();
-        coffeeFragment = CoffeeFragment.newInstance(); //get a new Fragment instance
+        coffeeFragment = SearchFragment.newInstance(); //get a new Fragment instance
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, coffeeFragment)
                 .commit(); // add it to the current activity

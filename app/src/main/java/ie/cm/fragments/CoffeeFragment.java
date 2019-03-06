@@ -1,11 +1,12 @@
 package ie.cm.fragments;
 
 import android.app.AlertDialog;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -15,13 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.EditText;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import ie.cm.R;
@@ -32,7 +31,9 @@ import ie.cm.adapters.CoffeeFilter;
 import ie.cm.adapters.CoffeeListAdapter;
 import ie.cm.models.Coffee;
 
-public class CoffeeFragment  extends ListFragment implements View.OnClickListener,
+public class CoffeeFragment  extends Fragment implements
+        AdapterView.OnItemClickListener,
+        View.OnClickListener,
         AbsListView.MultiChoiceModeListener
 {
     public Base activity;
@@ -45,16 +46,15 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Bundle activityInfo = new Bundle(); // Creates a new Bundle object
-        activityInfo.putString("coffeeId", (String) v.getTag());
+        activityInfo.putString("coffeeId", (String) view.getTag());
         Intent goEdit = new Intent(getActivity(), Edit.class); // Creates a new Intent
         /* Add the bundle to the intent here */
         goEdit.putExtras(activityInfo);
         getActivity().startActivity(goEdit); // Launch the Intent
     }
+
 
     public static CoffeeFragment newInstance() {
         CoffeeFragment fragment = new CoffeeFragment();
@@ -72,6 +72,14 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_home, parent, false);
+
         listAdapter = new CoffeeListAdapter(activity, this, activity.app.coffeeList);
         coffeeFilter = new CoffeeFilter(activity.app.coffeeList,"all",listAdapter);
 
@@ -80,18 +88,16 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
             coffeeFilter.filter(null); // Filter the data, but don't use any prefix
             listAdapter.notifyDataSetChanged(); // Update the adapter
         }
-        setListAdapter (listAdapter);
+
         setRandomCoffee();
-        checkEmptyList();
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, parent, savedInstanceState);
-
-        listView = v.findViewById(android.R.id.list);
+        listView = v.findViewById(R.id.homeList);
+        listView.setAdapter (listAdapter);
+        listView.setOnItemClickListener(this);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(this);
+
+        checkEmptyList(v);
 
         return v;
     }
@@ -126,7 +132,6 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
                 listAdapter.coffeeList.remove(coffee); // update adapters data
                 setRandomCoffee();
                 listAdapter.notifyDataSetChanged(); // refresh adapter
-                checkEmptyList();
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener()
         {
@@ -174,12 +179,11 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
             {
                 activity.app.coffeeList.remove(listAdapter.getItem(i));
                 if (activity instanceof Favourites)
-                    listAdapter.coffeeList.remove(listAdapter.getItem(i));
+                   listAdapter.coffeeList.remove(listAdapter.getItem(i));
             }
         }
         setRandomCoffee();
         listAdapter.notifyDataSetChanged(); // refresh adapter
-        checkEmptyList();
 
         actionMode.finish();
     }
@@ -195,7 +199,7 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
         if (activity instanceof Favourites)
             if( !coffeeList.isEmpty()) {
                 Coffee randomCoffee = coffeeList.get(new Random()
-                        .nextInt(coffeeList.size()));
+                            .nextInt(coffeeList.size()));
 
                 ((TextView) getActivity().findViewById(R.id.favouriteCoffeeName)).setText(randomCoffee.coffeeName);
                 ((TextView) getActivity().findViewById(R.id.favouriteCoffeeShop)).setText(randomCoffee.shop);
@@ -210,9 +214,9 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
             }
     }
 
-    public void checkEmptyList()
+    public void checkEmptyList(View v)
     {
-        TextView recentList = getActivity().findViewById(R.id.emptyList);
+        TextView recentList = v.findViewById(R.id.emptyList);
 
         if(activity.app.coffeeList.isEmpty())
             recentList.setText(getString(R.string.emptyMessageLbl));
@@ -224,7 +228,8 @@ public class CoffeeFragment  extends ListFragment implements View.OnClickListene
     {}
 
     @Override
-    public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked)
-    {}
+    public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
+    }
+
     /* ************ MultiChoiceModeListener methods (end) *********** */
 }

@@ -45,6 +45,7 @@ public class Add extends Base {
                 && (price.length() > 0)) {
             Coffee c = new Coffee(coffeeName, coffeeShop, ratingValue,
                     coffeePrice, false);
+
             app.coffeeList.add(c);
             startActivity(new Intent(this, Home.class));
         } else

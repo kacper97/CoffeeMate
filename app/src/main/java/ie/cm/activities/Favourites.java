@@ -1,7 +1,7 @@
 package ie.cm.activities;
+
 import android.os.Bundle;
 import android.widget.TextView;
-
 import ie.cm.R;
 import ie.cm.fragments.CoffeeFragment;
 
@@ -27,7 +27,7 @@ public class Favourites extends Base {
             emptyList.setText("");
 
         coffeeFragment = CoffeeFragment.newInstance(); //get a new Fragment instance
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, coffeeFragment)
                 .commit(); // add it to the current activity
     }

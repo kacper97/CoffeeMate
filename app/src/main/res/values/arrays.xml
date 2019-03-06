@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="coffeeTypes">
-        <item>All Types</item>
-        <item>Favourites</item>
-        <item>\> 3\* Rating</item>
-    </string-array>
-</resources>

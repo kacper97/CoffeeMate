@@ -37,22 +37,8 @@ public class CoffeeListAdapter extends ArrayAdapter<Coffee>
         return coffeeList.size();
     }
 
-
-//    @Override
-//    public Coffee getItem(int position)
-//    {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int position)
-//    {
-//        return 0;
-//    }
-//
-//    @Override
-//    public int getPosition(Coffee c)
-//    {
-//        return 0;
-//    }
+    @Override
+    public Coffee getItem(int position) {
+        return coffeeList.get(position);
+    }
 }

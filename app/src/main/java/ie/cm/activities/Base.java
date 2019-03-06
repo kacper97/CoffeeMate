@@ -5,26 +5,28 @@ import ie.cm.fragments.CoffeeFragment;
 import ie.cm.main.CoffeeMateApp;
 import ie.cm.models.Coffee;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class Base extends AppCompatActivity {
-    public  CoffeeMateApp app;
-    protected Bundle activityInfo;
-    public CoffeeFragment coffeeFragment;
+
+    public CoffeeMateApp app;
+    public Bundle activityInfo; // Used for persistence (of sorts)
+    public CoffeeFragment coffeeFragment; // How we'll 'share' our List of Coffees between Activities
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (CoffeeMateApp) getApplication();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
